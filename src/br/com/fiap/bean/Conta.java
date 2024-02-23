@@ -2,11 +2,11 @@ package br.com.fiap.bean;
 
 import java.util.Calendar;
 
-public class Conta {
+public abstract class Conta {
 
-    private Integer agencia, numero;
-    private Calendar dataAbertura;
-    private Double saldo;
+    protected Integer agencia, numero;
+    protected Calendar dataAbertura;
+    protected Double saldo;
 
 
     public Conta(){}
@@ -17,12 +17,11 @@ public class Conta {
         this.saldo = saldo;
     }
 
-    public void depositar(Double valor){
-        this.saldo = saldo + valor;
+    public Double depositar(Double valor) {
+        return this.saldo += valor;
     }
-    public void retirar(Double valor) throws Exception {
-        this.saldo = saldo - valor;
-    }
+
+    public abstract Double retirar(Double valor) throws Exception;
 
     public Integer getAgencia() {
         return agencia;
@@ -52,7 +51,4 @@ public class Conta {
         return saldo;
     }
 
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
-    }
 }

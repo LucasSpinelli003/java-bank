@@ -1,23 +1,34 @@
 package br.com.fiap.bean;
 
+import br.com.fiap.bean.exception.SaldoNegativoException;
+
+import java.util.Calendar;
+
 public class ContaCorrente extends Conta {
 
     private TipoConta tipoConta;
 
-
-    public void depositar(Double valor){
-        Double saldo = getSaldo();
-        saldo = saldo + valor;
-        setSaldo(saldo);
+    public ContaCorrente() {
     }
-    public void retirar(Double valor) throws Exception {
-        Double saldo = getSaldo();
-        saldo = saldo - valor;
-        if(tipoConta != TipoConta.Comum && saldo < 0){
-            setSaldo(saldo);
-        }else{
-            throw new Exception("Conta irá ficar com saldo negativo!");
-        }
 
+    public ContaCorrente(Integer agencia, Integer numero, Calendar dataAbertura, Double saldo, TipoConta tipoConta) {
+        super(agencia, numero, dataAbertura, saldo);
+        this.tipoConta = tipoConta;
+    }
+
+    public Double retirar(Double valor) throws Exception {
+        if(valor > saldo && tipoConta == TipoConta.Comum){
+            throw new SaldoNegativoException(saldo);
+        }
+        saldo -= valor;
+        return saldo;
+    }
+
+    public TipoConta getTipoConta() {
+        return tipoConta;
+    }
+
+    public void setTipoConta(TipoConta tipoConta) {
+        this.tipoConta = tipoConta;
     }
 }
